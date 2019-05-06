@@ -1,0 +1,25 @@
+---
+- git:
+    repo: https://github.com/joshuaavalon/docker-cloudflare.git
+    dest: "{{home_dir}}/docker-cloudflare"
+
+- name: Build image and with buildargs
+  docker_image:
+    path: "{{home_dir}}/docker-cloudflare"
+    name: joshuaavalon/cloudflare-ddns:arm32v6
+    dockerfile: Dockerfile.arm32v6
+
+- name: Run docker-cloudflare container
+  docker_container:
+    name: "cloudflare_{{item}}"
+    image: joshuaavalon/cloudflare-ddns:arm32v6
+    restart: yes
+    restart_policy: always
+    network_mode: host
+    env:
+      ZONE: "{{cloudflare_zone}}"
+      HOST: "{{item}}"
+      EMAIL: "{{cloudflare_email}}"
+      API: "{{cloudflare_api_key}}"
+      FORCE_CREATE: True
+  with_items: "{{cloudflare_sites.split(',')}}"

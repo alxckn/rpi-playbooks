@@ -2,14 +2,14 @@
 - name: Run deluge container
   docker_container:
     name: deluge
-    image: lsioarmhf/deluge:{{deluge_image_version}}
+    image: linuxserver/deluge:{{deluge_image_version}}
     volumes:
       - "{{deluge_download_dir}}:/downloads"
       - "{{deluge_config_dir}}:/config"
-    restart: yes
+    recreate: yes
     restart_policy: always
     network_mode: host
     env:
-      TZ: Hong Kong
+      TZ: "{{deluge_timezone}}"
       PUID: 1000
       PGID: 1000

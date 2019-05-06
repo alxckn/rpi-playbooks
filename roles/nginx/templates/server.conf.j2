@@ -1,0 +1,37 @@
+server {
+  listen 80;
+  listen [::]:80;
+  include /etc/nginx/app/include.basic_auth;
+
+  server_name alex-files.ddns.info www.alex-files.ddns.info files.alxckn.com _;
+
+  root {{deluge_download_dir}};
+
+
+  location / {
+    autoindex on;
+  }
+}
+
+server {
+  listen 80;
+  listen [::]:80;
+  include /etc/nginx/app/include.basic_auth;
+
+  server_name ui.alex-files.ddns.info deluge.alxckn.com;
+
+  location / {
+    proxy_pass http://127.0.0.1:8112;
+  }
+}
+
+server {
+  listen 1034;
+  include /etc/nginx/app/include.basic_auth;
+
+  server_name _;
+
+  location / {
+    proxy_pass http://127.0.0.1:8112;
+  }
+}

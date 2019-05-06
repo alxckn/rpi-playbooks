@@ -1,0 +1,27 @@
+---
+- hosts: pi
+  tasks:
+    - name: Include vars of secrets.yaml
+      include_vars:
+        file: group_vars/secrets.yml
+      tags: always
+
+    - import_role:
+        name: common
+      tags: common
+
+    - import_role:
+        name: ssh_security
+      tags: secure
+
+    - import_role:
+        name: bittorrent
+      tags: torrent
+
+    - import_role:
+        name: nginx
+      tags: nginx
+
+    - import_role:
+        name: cloudflare
+      tags: cloudflare

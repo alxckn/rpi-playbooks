@@ -5,6 +5,35 @@
   notify:
     - start nginx
 
+- htpasswd:
+    path: /etc/nginx/passwdfile
+    name: "{{nginx_username}}"
+    password: "{{nginx_password}}"
+    owner: root
+    group: root
+    mode: 0644
+  become: True
+  notify:
+    - reload nginx
+
+- name: Create nginx app directory
+  become: True
+  file:
+    path: /etc/nginx/app
+    state: directory
+
+- name: Copy over basic auth snippet
+  template: src=include.basic_auth dest=/etc/nginx/app/include.basic_auth
+  become: True
+  notify:
+    - reload nginx
+
+- name: Copy over server configuration
+  template: src=server.conf.j2 dest=/etc/nginx/sites-enabled/server.conf
+  become: True
+  notify:
+    - reload nginx
+
 - name: Remove nginx default
   file: path=/etc/nginx/sites-enabled/default state=absent
   become: True

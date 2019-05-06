@@ -3,3 +3,6 @@ pi
 roles/**/env.sample
 roles/nfs-server/files/exports
 *.retry
+venv
+commands
+group_vars/secrets.yml
