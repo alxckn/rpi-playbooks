@@ -1,5 +1,0 @@
----
-- hosts: pi
-
-  roles:
-    - ssh_security

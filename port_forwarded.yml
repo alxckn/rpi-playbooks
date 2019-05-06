@@ -1,5 +1,0 @@
----
-- hosts: pi
-
-  roles:
-    - public_ip_dump
